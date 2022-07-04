@@ -24,6 +24,8 @@ Dopo che sono stati inseriti i 5 numeri, il software dice quanti e quali dei num
 
 //3-------- DOPO I PROMPT , DIRO' ALL'UTENTE QUANTI DEI NUMERI INSERITI CORRISPONDONO AI NUMERI GENERATI RANDOMICAMENTE
 
+//SE UNO DEGLI ELEMENTI USERGUESS E' UGUALE ALLA POSIZIONE DEGLI ELEMENTI DENTRO LA BLACKLIST
+
 
 
 Consigli del giorno:
@@ -35,20 +37,18 @@ prompt() e alert() vengono sempre eseguiti prima del resto del codice nel loro s
 
 const numbers = document.getElementById('display-numbers');
 const timer = document.getElementById('timer');
+const userScore = document.getElementById('user-score');
+const button = document.getElementById('button');
 
-
-
-
-
-let userGuess;
+let userGuess = [];
 let blackList = [];
 let randomNumber;
 let counter = 0;
-let maxCount = 30;
+let maxCount = 5;
 
 
 function randomGenerator(max) {
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 5; i++) {
         let randomNumber = Math.floor(Math.random() * max + 1);
         if (blackList.includes(randomNumber)) {
             do {
@@ -56,10 +56,12 @@ function randomGenerator(max) {
             } while (blackList.includes(randomNumber));
             blackList.push(randomNumber);
         } else {
-            numbers.innerText = blackList
             blackList.push(randomNumber);
         }
     }
+
+    //DA MIGLIORARE
+    numbers.innerText = blackList
 
 }
 console.log(blackList)
@@ -67,24 +69,37 @@ console.log(blackList)
 
 randomGenerator(20)
 
+
+
 const chronometer = setInterval(() => {
     timer.innerText = ++counter;
     if (counter === maxCount) {
         clearInterval(chronometer);
         numbers.classList.add('none');
         timer.classList.add('none');
+        setTimeout(function () {
+
+            for (let i = 0; i < 5; i++) {
+                userGuess.push(prompt(`Inserisci il ${i + 1}° numero`))
+            }
+            button.classList.remove('d-none')
+        }, 2000)
+
+
     }
 }, 1000);
 
 
-setInterval(() => {
-    userGuess = prompt('Inserisci il primo numero')
-    userGuess = prompt('Inserisci il secondo numero')
-    userGuess = prompt('Inserisci il terzo numero')
-    userGuess = prompt('Inserisci il quarto numero')
-    userGuess = prompt('Inserisci il quinto numero')
-}, 32000)
+button.addEventListener('click', () => {
+    let foundNumbers = 0;
+    for (let i = 0; i < blackList.length; i++) {
+        if (userGuess[i] == blackList[i]) {
+            ++foundNumbers;
+        }
+    }
+    userScore.innerHTML = foundNumbers;
+})
 
-if(userGuess === blackList[i]){
-    console.log('hai vinto')
-}
+
+
+

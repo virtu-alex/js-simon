@@ -1,13 +1,25 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-#display-numbers{
+#display-numbers {
     font-size: 10rem;
 }
 
-.none{
+
+.none {
     display: none;
+}
+
+#timer {
+    font-size: 5rem;
+}
+
+#button>button {
+    width: 80%;
+    height: 500px;
+    font-size: 5rem;
+    font-weight: bolder;
 }
